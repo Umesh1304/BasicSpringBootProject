@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculator</title>
+</head>
+<body>
+    <h1>Calculator</h1>
+    <form id="calcForm">
+        <label for="num1">Number 1:</label>
+        <input type="number" id="num1" name="num1" required><br><br>
+
+        <label for="num2">Number 2:</label>
+        <input type="number" id="num2" name="num2" required><br><br>
+
+        <label for="operation">Operation:</label>
+        <select id="operation" name="operation">
+            <option value="add">Addition</option>
+            <option value="sub">Subtraction</option>
+            <option value="mult">Multiplication</option>
+            <option value="divi">Division</option>
+        </select><br><br>
+
+        <input type="submit" value="Calculate">
+    </form>
+
+    <script>
+        const form = document.getElementById('calcForm');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const jsonData = {};
+            formData.forEach((value, key) => { jsonData[key] = value; });
+            const response = await fetch('/calculate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(jsonData)
+            });
+            // Handle response
+            const result = await response.text();
+            alert(result); // Display the result in an alert (you can update this to display the result in any way you want)
+        });
+    </script>
+</body>
+</html>
